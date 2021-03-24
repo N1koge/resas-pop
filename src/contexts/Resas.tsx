@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import type {
@@ -7,6 +7,7 @@ import type {
   Selected,
   PopData,
   ResasPrefRes,
+  ResasPopRes,
 } from '../interfaces/resas';
 
 type PrefMap = Map<PrefName, { prefCode: PrefCode; selected: Selected }>;
@@ -46,13 +47,42 @@ const ResasProvider = ({ children, prefRes }: Props) => {
   const [population, setPopulation] = useState<PopData[]>([]);
   const [fetched, setFetched] = useState<FetchMap>(initialFetch(prefRes));
 
-  const handlePrefClick = (prefName: PrefName) => {};
+  const toggleSelect = (prefName: PrefName): void => {
+    const pref = prefectures.get(prefName);
+    pref.selected = !pref.selected;
+    setPrefectures(new Map(prefectures.set(prefName, pref)));
+  };
+
+  const handleFetchPop = async (prefName: PrefName): Promise<void> => {
+    const { prefCode } = prefectures.get(prefName);
+    if (!fetched.get(prefCode)) {
+      const res = await fetch(`/api/resas/population/${prefCode}`);
+      const data: ResasPopRes = await res.json();
+      const popResData = data.result.data.find((pop) => pop.label == '総人口');
+
+      population.push({ prefName, data: popResData.data });
+
+      setPopulation(Array.from(population));
+      setFetched(fetched.set(prefCode, true));
+    }
+  };
+
+  const handlePrefClick = useCallback(async (prefName: PrefName) => {
+    toggleSelect(prefName);
+    await handleFetchPop(prefName);
+  }, []);
+
+  const isSelected = (prefName: PrefName): Selected =>
+    prefectures.get(prefName).selected;
+
+  const filterPop = (): PopData[] =>
+    population.filter((pop) => isSelected(pop.prefName));
 
   return (
     <ResasContext.Provider
       value={{
         prefectures,
-        population,
+        population: filterPop(),
         handlePrefClick,
       }}
     >
