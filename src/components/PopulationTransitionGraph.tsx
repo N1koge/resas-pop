@@ -9,19 +9,19 @@ import {
   Legend,
 } from 'recharts';
 
-type ChartData = { label: string; values: { name: string; value: number }[] };
+import type { PopData } from '../interfaces/resas';
 
-type ChartParam = {
+type ChartParams = {
   xLabel: string;
   yLabel: string;
-  data: ChartData[];
+  data: PopData[];
 };
 
-const renderLineChart = ({ xLabel, yLabel, data }: ChartParam) => (
+const renderLineChart = ({ xLabel, yLabel, data }: ChartParams) => (
   <ResponsiveContainer>
     <LineChart margin={{ top: 40, right: 70 }}>
       <XAxis
-        dataKey="name"
+        dataKey="year"
         allowDuplicatedCategory={false}
         padding={{ right: 20 }}
       >
@@ -33,43 +33,48 @@ const renderLineChart = ({ xLabel, yLabel, data }: ChartParam) => (
       <Tooltip />
       <Legend />
       {data.map((d) => (
-        <Line dataKey="value" data={d.values} name={d.label} key={d.label} />
+        <Line
+          dataKey="value"
+          data={d.data}
+          name={d.prefName}
+          key={d.prefName}
+        />
       ))}
     </LineChart>
   </ResponsiveContainer>
 );
 
-const sampleGraphData: ChartData[] = [
+const sampleGraphData: PopData[] = [
   {
-    label: 'foo',
-    values: [
-      { name: 'a', value: 10 },
-      { name: 'b', value: 20 },
-      { name: 'c', value: 30 },
-      { name: 'd', value: 40 },
-      { name: 'e', value: 50 },
-      { name: 'f', value: 60 },
+    prefName: 'foo',
+    data: [
+      { year: 1900, value: 10 },
+      { year: 1920, value: 20 },
+      { year: 1940, value: 30 },
+      { year: 1960, value: 40 },
+      { year: 1980, value: 50 },
+      { year: 2000, value: 60 },
     ],
   },
   {
-    label: 'bar',
-    values: [
-      { name: 'a', value: 60 },
-      { name: 'b', value: 50 },
-      { name: 'c', value: 40 },
-      { name: 'd', value: 30 },
-      { name: 'e', value: 20 },
-      { name: 'f', value: 10 },
+    prefName: 'bar',
+    data: [
+      { year: 1900, value: 60 },
+      { year: 1920, value: 50 },
+      { year: 1940, value: 40 },
+      { year: 1960, value: 30 },
+      { year: 1980, value: 20 },
+      { year: 2000, value: 10 },
     ],
   },
 ];
 
 const PopulationTransitionGraph = () => (
-  <div>
+  <div style={{ width: '100%', height: '500px' }}>
     <p>Population Transition Graph</p>
     {renderLineChart({
-      xLabel: 'xLabel',
-      yLabel: 'yLabel',
+      xLabel: '年度',
+      yLabel: '人口数',
       data: sampleGraphData,
     })}
   </div>
