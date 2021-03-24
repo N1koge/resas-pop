@@ -6,7 +6,11 @@ import type {
   PrefCode,
   Selected,
   PopData,
+  ResasPrefRes,
 } from '../interfaces/resas';
+
+type PrefMap = Map<PrefName, { prefCode: PrefCode; selected: Selected }>;
+type FetchMap = Map<PrefCode, boolean>;
 
 interface ResasContextInterface {
   prefectures: PrefMap;
@@ -14,17 +18,33 @@ interface ResasContextInterface {
   handlePrefClick: (perfName: PrefName) => void;
 }
 
-type PrefMap = Map<PrefName, { prefCode: PrefCode; selected: Selected }>;
-
 type Props = {
   children: ReactNode;
+  prefRes: ResasPrefRes;
 };
 
 const ResasContext = createContext<ResasContextInterface>(null);
 
-const ResasProvider = ({ children }: Props) => {
-  const [prefectures, setPrefectures] = useState<PrefMap>(new Map());
+const initialPrefs = (prefRes: ResasPrefRes): PrefMap =>
+  new Map(
+    prefRes.result.map((pref) => [
+      pref.prefName,
+      {
+        prefCode: pref.prefCode,
+        selected: false,
+      },
+    ])
+  );
+
+const initialFetch = (prefRes: ResasPrefRes): FetchMap =>
+  new Map(prefRes.result.map((pref) => [pref.prefCode, false]));
+
+const ResasProvider = ({ children, prefRes }: Props) => {
+  const [prefectures, setPrefectures] = useState<PrefMap>(
+    initialPrefs(prefRes)
+  );
   const [population, setPopulation] = useState<PopData[]>([]);
+  const [fetched, setFetched] = useState<FetchMap>(initialFetch(prefRes));
 
   const handlePrefClick = (prefName: PrefName) => {};
 
