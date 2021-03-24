@@ -1,6 +1,8 @@
+import Title from './Title';
+
 const AppBar = () => (
   <div>
-    <p>App Bar</p>
+    <Title />
   </div>
 );
 
