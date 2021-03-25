@@ -1,22 +1,30 @@
+import { useResas } from '../contexts/Resas';
+import type { PrefMap, PrefName } from '../interfaces/resas';
+
 import LabeledCheckbox from './LabeledCheckbox';
 
-const sampleLabels = ['a', 'b', 'c', 'd', 'e'];
-
-const generateCheckboxes = (labels: string[], handleClick: () => void) =>
-  labels.map((label) => (
+const generateCheckboxes = (
+  prefMap: PrefMap,
+  handlePrefClick: (prefName: PrefName) => void
+) =>
+  Array.from(prefMap.keys()).map((prefName) => (
     <LabeledCheckbox
-      key={label}
-      label={label}
-      checked={true}
-      handleClick={handleClick}
+      key={prefName}
+      label={prefName}
+      checked={prefMap.get(prefName).selected}
+      handleClick={handlePrefClick}
     />
   ));
 
-const PrefectureCheckboxes = () => (
-  <div>
-    <p>Prefecture Checkboxes</p>
-    {generateCheckboxes(sampleLabels, () => {})}
-  </div>
-);
+const PrefectureCheckboxes = () => {
+  const { prefectures, handlePrefClick } = useResas();
+
+  return (
+    <div>
+      <p>Prefecture Checkboxes</p>
+      {generateCheckboxes(prefectures, handlePrefClick)}
+    </div>
+  );
+};
 
 export default PrefectureCheckboxes;
