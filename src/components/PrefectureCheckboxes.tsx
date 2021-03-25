@@ -23,7 +23,7 @@ const PrefectureCheckboxes = () => {
 
   return (
     <div>
-      <p>Prefecture Checkboxes</p>
+      <p>都道府県</p>
       <div className={styles['grid-container']}>
         {generateCheckboxes(prefectures, handlePrefClick)}
       </div>
