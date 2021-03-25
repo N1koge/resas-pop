@@ -1,6 +1,6 @@
 import Title from './Title';
 
-import styles from './AppBar.module.css';
+import styles from './AppBar.module.scss';
 
 const AppBar = () => (
   <div className={styles.root}>
