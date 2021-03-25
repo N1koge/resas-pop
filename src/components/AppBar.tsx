@@ -1,7 +1,9 @@
 import Title from './Title';
 
+import styles from './AppBar.module.css';
+
 const AppBar = () => (
-  <div>
+  <div className={styles.root}>
     <Title />
   </div>
 );
