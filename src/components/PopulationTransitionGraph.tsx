@@ -5,7 +5,6 @@ import {
   XAxis,
   YAxis,
   Label,
-  Tooltip,
   Legend,
 } from 'recharts';
 
@@ -34,7 +33,6 @@ const renderLineChart = ({ xLabel, yLabel, data }: ChartParams) => {
         <YAxis dataKey="value" padding={{ top: 20 }}>
           <Label value={yLabel} position="top" />
         </YAxis>
-        <Tooltip />
         <Legend
           layout="vertical"
           verticalAlign="middle"
@@ -45,8 +43,9 @@ const renderLineChart = ({ xLabel, yLabel, data }: ChartParams) => {
             dataKey="value"
             data={d.data}
             dot={false}
-            name={d.prefName}
             key={d.prefName}
+            name={d.prefName}
+            stroke={d.color}
           />
         ))}
       </LineChart>

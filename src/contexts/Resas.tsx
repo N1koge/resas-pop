@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
-
 import type {
   PrefName,
   PrefCode,
@@ -10,6 +9,7 @@ import type {
   ResasPopRes,
   PrefMap,
 } from '../interfaces/resas';
+import { randomColor } from '../utils/randomColor';
 
 type FetchMap = Map<PrefCode, boolean>;
 
@@ -60,7 +60,11 @@ const ResasProvider = ({ children, prefRes }: Props) => {
       const data: ResasPopRes = await res.json();
       const popResData = data.result.data.find((pop) => pop.label == '総人口');
 
-      population.push({ prefName, data: popResData.data });
+      population.push({
+        prefName,
+        data: popResData.data,
+        color: randomColor(),
+      });
 
       setPopulation(Array.from(population));
       setFetched(fetched.set(prefCode, true));

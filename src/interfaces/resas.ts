@@ -18,7 +18,7 @@ export type PopResData = {
   data: Pop[];
 };
 
-export type PopData = { prefName: PrefName; data: Pop[] };
+export type PopData = { prefName: PrefName; data: Pop[]; color: string };
 
 type ResasResBase = {
   message: null | string;
