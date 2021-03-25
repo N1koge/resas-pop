@@ -56,6 +56,8 @@ const ResasProvider = ({ children, prefRes }: Props) => {
   const handleFetchPop = async (prefName: PrefName): Promise<void> => {
     const { prefCode } = prefectures.get(prefName);
     if (!fetched.get(prefCode)) {
+      setFetched(fetched.set(prefCode, true));
+
       const res = await fetch(`/api/resas/population/${prefCode}`);
       const data: ResasPopRes = await res.json();
       const popResData = data.result.data.find((pop) => pop.label == '総人口');
@@ -67,7 +69,6 @@ const ResasProvider = ({ children, prefRes }: Props) => {
       });
 
       setPopulation(Array.from(population));
-      setFetched(fetched.set(prefCode, true));
     }
   };
 
