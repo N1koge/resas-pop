@@ -12,45 +12,53 @@ import {
 import type { PopData } from '../interfaces/resas';
 import { useResas } from '../contexts/Resas';
 
+import styles from './PopulationTransitionGraph.module.scss';
+
 type ChartParams = {
   xLabel: string;
   yLabel: string;
   data: PopData[];
 };
 
-const renderLineChart = ({ xLabel, yLabel, data }: ChartParams) => (
-  <ResponsiveContainer>
-    <LineChart margin={{ top: 40, right: 70 }}>
-      <XAxis
-        dataKey="year"
-        allowDuplicatedCategory={false}
-        padding={{ right: 20 }}
-      >
-        <Label value={xLabel} position="right" />
-      </XAxis>
-      <YAxis dataKey="value" padding={{ top: 20 }}>
-        <Label value={yLabel} position="top" />
-      </YAxis>
-      <Tooltip />
-      <Legend />
-      {data.map((d) => (
-        <Line
-          dataKey="value"
-          data={d.data}
-          name={d.prefName}
-          key={d.prefName}
+const renderLineChart = ({ xLabel, yLabel, data }: ChartParams) => {
+  return (
+    <ResponsiveContainer>
+      <LineChart margin={{ top: 40, right: 70, left: 25 }}>
+        <XAxis
+          dataKey="year"
+          allowDuplicatedCategory={false}
+          padding={{ right: 30 }}
+        >
+          <Label value={xLabel} offset={10} position="right" />
+        </XAxis>
+        <YAxis dataKey="value" padding={{ top: 20 }}>
+          <Label value={yLabel} position="top" />
+        </YAxis>
+        <Tooltip />
+        <Legend
+          layout="vertical"
+          verticalAlign="middle"
+          wrapperStyle={{ top: '10%', right: 0 }}
         />
-      ))}
-    </LineChart>
-  </ResponsiveContainer>
-);
+        {data.map((d) => (
+          <Line
+            dataKey="value"
+            data={d.data}
+            dot={false}
+            name={d.prefName}
+            key={d.prefName}
+          />
+        ))}
+      </LineChart>
+    </ResponsiveContainer>
+  );
+};
 
 const PopulationTransitionGraph = () => {
   const { population } = useResas();
 
   return (
-    <div style={{ width: '100%', height: '500px' }}>
-      <p>Population Transition Graph</p>
+    <div className={styles.root}>
       {renderLineChart({
         xLabel: '年度',
         yLabel: '人口数',
