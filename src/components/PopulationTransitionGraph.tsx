@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 
 import type { PopData } from '../interfaces/resas';
+import { useResas } from '../contexts/Resas';
 
 type ChartParams = {
   xLabel: string;
@@ -44,40 +45,19 @@ const renderLineChart = ({ xLabel, yLabel, data }: ChartParams) => (
   </ResponsiveContainer>
 );
 
-const sampleGraphData: PopData[] = [
-  {
-    prefName: 'foo',
-    data: [
-      { year: 1900, value: 10 },
-      { year: 1920, value: 20 },
-      { year: 1940, value: 30 },
-      { year: 1960, value: 40 },
-      { year: 1980, value: 50 },
-      { year: 2000, value: 60 },
-    ],
-  },
-  {
-    prefName: 'bar',
-    data: [
-      { year: 1900, value: 60 },
-      { year: 1920, value: 50 },
-      { year: 1940, value: 40 },
-      { year: 1960, value: 30 },
-      { year: 1980, value: 20 },
-      { year: 2000, value: 10 },
-    ],
-  },
-];
+const PopulationTransitionGraph = () => {
+  const { population } = useResas();
 
-const PopulationTransitionGraph = () => (
-  <div style={{ width: '100%', height: '500px' }}>
-    <p>Population Transition Graph</p>
-    {renderLineChart({
-      xLabel: '年度',
-      yLabel: '人口数',
-      data: sampleGraphData,
-    })}
-  </div>
-);
+  return (
+    <div style={{ width: '100%', height: '500px' }}>
+      <p>Population Transition Graph</p>
+      {renderLineChart({
+        xLabel: '年度',
+        yLabel: '人口数',
+        data: population,
+      })}
+    </div>
+  );
+};
 
 export default PopulationTransitionGraph;
