@@ -8,9 +8,9 @@ import type {
   PopData,
   ResasPrefRes,
   ResasPopRes,
+  PrefMap,
 } from '../interfaces/resas';
 
-type PrefMap = Map<PrefName, { prefCode: PrefCode; selected: Selected }>;
 type FetchMap = Map<PrefCode, boolean>;
 
 interface ResasContextInterface {

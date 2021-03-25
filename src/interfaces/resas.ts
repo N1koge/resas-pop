@@ -34,3 +34,5 @@ export type ResasPopRes = ResasResBase & {
     data: PopResData[];
   };
 };
+
+export type PrefMap = Map<PrefName, { prefCode: PrefCode; selected: Selected }>;
