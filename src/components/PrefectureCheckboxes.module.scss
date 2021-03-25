@@ -1,0 +1,13 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 8px;
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  @media (min-width: 1080px) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}

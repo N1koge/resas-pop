@@ -3,6 +3,8 @@ import type { PrefMap, PrefName } from '../interfaces/resas';
 
 import LabeledCheckbox from './LabeledCheckbox';
 
+import styles from './PrefectureCheckboxes.module.scss';
+
 const generateCheckboxes = (
   prefMap: PrefMap,
   handlePrefClick: (prefName: PrefName) => void
@@ -21,8 +23,10 @@ const PrefectureCheckboxes = () => {
 
   return (
     <div>
-      <p>Prefecture Checkboxes</p>
-      {generateCheckboxes(prefectures, handlePrefClick)}
+      <p>都道府県</p>
+      <div className={styles['grid-container']}>
+        {generateCheckboxes(prefectures, handlePrefClick)}
+      </div>
     </div>
   );
 };
